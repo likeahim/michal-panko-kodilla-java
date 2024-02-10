@@ -42,15 +42,17 @@ public class ShapeCollectorTestSuite {
 
         @Test
         void testRemoveFigure() {
+            //Given
             ShapeCollector collector = new ShapeCollector();
             Shape shapeToRemove = new Square();
             collector.addShape(shapeToRemove);
             List<Shape> shapes = collector.getShapes();
 
-
+            //When
             int size = shapes.size();
             collector.removeShape(shapeToRemove);
 
+            //Then
             assertNotEquals(shapes.size(), size);
         }
     }
@@ -60,26 +62,32 @@ public class ShapeCollectorTestSuite {
     class ReturnOrDisplayNamesShapes {
         @Test
         void testGetFigure() {
+            //Given
             ShapeCollector collector = new ShapeCollector();
             int indexToGet = 0;
             List<Shape> shapes = collector.getShapes();
             shapes.add(new Circle());
 
+            //When
             Shape shape = collector.getFigure(indexToGet);
             boolean result = (shape instanceof Circle);
 
+            //Then
             assertTrue(result);
         }
 
         @Test
         void testShowFigures() {
+            //Given
             ShapeCollector collector = new ShapeCollector();
             collector.addShape(new Square());
             collector.addShape(new Triangle());
             collector.addShape(new Circle());
 
+            //When
             String result = collector.showFigures();
 
+            //Then
             assertFalse(result.isBlank());
         }
     }
