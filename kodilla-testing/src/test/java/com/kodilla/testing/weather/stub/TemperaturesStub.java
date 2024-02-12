@@ -17,14 +17,4 @@ public class TemperaturesStub implements Temperatures {
 
         return stubResult;
     }
-
-    @Override
-    public double getAverageTemperature() {
-        return 0;
-    }
-
-    @Override
-    public double getMedianTemperature() {
-        return 0;
-    }
 }
