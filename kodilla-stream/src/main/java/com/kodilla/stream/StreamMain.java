@@ -1,11 +1,16 @@
 package com.kodilla.stream;
 
 import com.kodilla.stream.beautifier.PoemBeautifier;
+import com.kodilla.stream.iterate.NumbersGenerator;
 import com.kodilla.stream.lambda.ExpressionExecutor;
 import com.kodilla.stream.reference.FunctionalCalculator;
 
 public class StreamMain {
     public static void main(String[] args) {
+
+        System.out.println("Using Stream to generate even numbers from 1 to 20");
+        NumbersGenerator.generateEven(20);
+
         ExpressionExecutor expressionExecutor = new ExpressionExecutor();
 
         System.out.println("Lambda expressions calculating:");
@@ -39,6 +44,7 @@ public class StreamMain {
         showChange(uglyWord, beautyWord);
     }
 
+
     private static void showChange(String origin, String after) {
         System.out.println("String before changes: " + origin);
         System.out.println("String after changes: " + after);
@@ -53,3 +59,4 @@ public class StreamMain {
         return beautyString;
     }
 }
+
