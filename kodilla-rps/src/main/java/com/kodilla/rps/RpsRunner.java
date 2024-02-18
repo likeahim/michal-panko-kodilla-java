@@ -7,5 +7,6 @@ public class RpsRunner {
 
         GameRing gameRing = new GameRing();
         gameRing.play();
+        System.out.println("goodbye");
     }
 }

@@ -12,57 +12,66 @@ import java.util.Scanner;
 public class GameRing {
 
     public Scanner scanner = new Scanner(System.in);
-    private int playerWins = 0;
-    private int computerWins = 0;
+    private int playerWins;
+    private int computerWins;
     private Shape playersShape;
     private Shape computersShape;
-    private Player computer = new Player("Computer");
+    private final Player computer = new Player("Computer");
     private Player player;
-    private List<Shape> shapes = List.of(new Rock(), new Paper(), new Scissors());
+    private Player winner;
+
+    private final int numberOfShapes = 3;
+    private final List<Shape> shapes = List.of(new Rock(), new Paper(), new Scissors());
 
     public void play() {
-        boolean end = false;
         boolean newGame = false;
-        while(!newGame) {
-            String name = enterName();
-            this.player = new Player(name);
-            int numberOfRounds = enterNumberOfRounds();
+        while (!newGame) {
+            boolean end = false;
+            int numberOfRounds = newGameStarter();
             while (!end) {
                 printInfo();
                 String move = getPlayerMove();
                 switch (move) {
-                    case "x" -> end = quit();
-                    case "n" -> newGame = newGame();
-                    case "1", "2", "3" -> {
-                        int i = Integer.parseInt(move);
-                        playersShape = shapes.get(i + 1);
-                    }
-                    default -> System.out.println("FALSE MOVE, TRY AGAIN");
+                    case "x" -> newGame = quit();
+                    case "n" -> end = newGame();
+                    case "1", "2", "3" -> makeAMove(move);
                 }
-                int computerMove = new Random().nextInt(3) + 1;
-                computersShape = shapes.get(computerMove);
-                if(computersShape.equals(playersShape.getBully())) {
-                    computerWins++;
-                    battleInfo(computer, computersShape, playersShape);
-                }
-                else if(computersShape.equals(playersShape.getVictim())) {
-                    playerWins++;
-                    battleInfo(player, computersShape, playersShape);
-                }
-                else
-                    drawInfo(computersShape, playersShape);
-                if(playerWins == numberOfRounds || computerWins == numberOfRounds) {
+                if(newGame)
+                    end = newGame;
+                if (playerWins == numberOfRounds || computerWins == numberOfRounds) {
                     end = true;
-                    scanner.close();
+                    setWinner();
+                    newGame = !newGame();
                 }
             }
         }
+        scanner.close();
     }
 
-    private void battleInfo(Player player, Shape computersShape, Shape playersShape) {
-        System.out.println(playersShape + " vs " + computersShape + "\n" +
-                player.getName() + " wins this battle\n" +
-                playerWins + " to " + computerWins);
+    private void makeAMove(String move) {
+        int i = Integer.parseInt(move) - 1;
+        playersShape = shapes.get(i);
+        int computerMove = new Random().nextInt(numberOfShapes);
+        computersShape = shapes.get(computerMove);
+        if (computersShape.equals(playersShape.getBully())) {
+            computerWins++;
+            battleInfo(computer);
+        } else if (computersShape.equals(playersShape.getVictim())) {
+            playerWins++;
+            battleInfo(player);
+        } else
+            drawInfo(computersShape, playersShape);
+    }
+
+    private String getPlayerMove() {
+        return scanner.nextLine();
+
+    }
+
+    private void battleInfo(Player player) {
+        System.out.println(this.playersShape + " vs " + this.computersShape + "\n" +
+                           player.getName() + " wins this battle\n" +
+                           playerWins + " to " + computerWins);
     }
 
     private void drawInfo(Shape computersShape, Shape playersShape) {
@@ -71,14 +80,22 @@ public class GameRing {
                 playerWins + " to " + computerWins);
     }
 
-
     private boolean newGame() {
         System.out.println("""
-                Do you really want to stop and start new game?
+                Do you want to start new game?
                 y -> yes, new game
-                n -> no, stay and play""");
+                n -> no""");
         String answer = scanner.nextLine();
         return answer.equals("y");
+    }
+
+    private int newGameStarter() {
+        System.out.println("NEW GAME");
+        playerWins = 0;
+        computerWins = 0;
+        String name = enterName();
+        this.player = new Player(name);
+        return enterNumberOfRounds();
     }
 
     private boolean quit() {
@@ -92,16 +109,19 @@ public class GameRing {
 
     private void printInfo() {
         System.out.println("Options: \n" +
-                "1 -> play Rock\n" +
-                "2 -> play Paper\n" +
-                "3 -> play Scissors\n" +
-                "x -> end of game\n" +
-                "n -> new game");
+                           "1 -> play Rock\n" +
+                           "2 -> play Paper\n" +
+                           "3 -> play Scissors\n" +
+                           "x -> end of game\n" +
+                           "n -> new game");
     }
 
-    private String getPlayerMove() {
-        return scanner.nextLine();
-
+    private void setWinner() {
+        if(playerWins > computerWins)
+            winner = player;
+        else
+            winner = computer;
+        System.out.println("the winner is " + winner.getName());
     }
 
     private int enterNumberOfRounds() {
@@ -116,7 +136,4 @@ public class GameRing {
         return scanner.nextLine();
     }
 
-    private void startInfo() {
-
-    }
 }

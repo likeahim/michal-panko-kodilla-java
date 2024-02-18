@@ -1,12 +1,14 @@
 package com.kodilla.rps.shapes;
 
+import java.util.Objects;
+
 public class Scissors implements Shape {
 
     private final String name = "Scissors";
-    private final char displayImage = '\u2704';
+    private final char displayImage = 's';
 
-    private final Shape bully = new Rock();
-    private final Shape victim = new Paper();
+    private Rock bully;
+    private Paper victim;
 
 
     public String getName() {
@@ -17,17 +19,30 @@ public class Scissors implements Shape {
         return displayImage;
     }
 
-    public Shape getBully() {
-        return bully;
+    public Rock getBully() {
+        return new Rock();
     }
 
     @Override
-    public Shape getVictim() {
-        return victim;
+    public Paper getVictim() {
+        return new Paper();
     }
 
     @Override
     public String toString() {
         return name + " " + displayImage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Scissors scissors = (Scissors) o;
+        return displayImage == scissors.displayImage && Objects.equals(name, scissors.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, displayImage);
     }
 }
