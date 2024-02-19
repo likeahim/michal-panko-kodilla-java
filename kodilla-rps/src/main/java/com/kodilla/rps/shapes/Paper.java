@@ -1,14 +1,11 @@
 package com.kodilla.rps.shapes;
 
+import java.util.List;
 import java.util.Objects;
 
 public final class Paper implements Shape {
-
     private final String name = "Paper";
-    private final char displayImage = 'p';
-
-    private Scissors bully;
-    private Rock victim;
+    private final char displayImage = '\u270B';
 
     public String getName() {
         return name;
@@ -18,13 +15,12 @@ public final class Paper implements Shape {
         return displayImage;
     }
 
-    public Scissors getBully() {
-        return new Scissors();
+    public List<Shape> getBullies() {
+        return List.of(new Scissors(), new Lizard());
     }
 
-    @Override
-    public Rock getVictim() {
-        return new Rock();
+    public List<Shape> getVictims() {
+        return List.of(new Rock(), new Spock());
     }
 
     @Override

@@ -1,9 +1,6 @@
 package com.kodilla.rps.ring;
 
-import com.kodilla.rps.shapes.Paper;
-import com.kodilla.rps.shapes.Rock;
-import com.kodilla.rps.shapes.Scissors;
-import com.kodilla.rps.shapes.Shape;
+import com.kodilla.rps.shapes.*;
 
 import java.util.List;
 import java.util.Random;
@@ -20,8 +17,8 @@ public class GameRing {
     private Player player;
     private Player winner;
 
-    private final int numberOfShapes = 3;
-    private final List<Shape> shapes = List.of(new Rock(), new Paper(), new Scissors());
+    private final List<Shape> shapes = List.of(new Rock(), new Paper(), new Scissors(), new Spock(), new Lizard());
+    private final int numberOfShapes = shapes.size();
 
     public void play() {
         boolean newGame = false;
@@ -34,7 +31,9 @@ public class GameRing {
                 switch (move) {
                     case "x" -> newGame = quit();
                     case "n" -> end = newGame();
-                    case "1", "2", "3" -> makeAMove(move);
+                    case "1", "2", "3", "4", "5" -> makeAMove(move);
+
+                    default -> System.out.println("no such a option");
                 }
                 if(newGame)
                     end = newGame;
@@ -53,10 +52,10 @@ public class GameRing {
         playersShape = shapes.get(i);
         int computerMove = new Random().nextInt(numberOfShapes);
         computersShape = shapes.get(computerMove);
-        if (computersShape.equals(playersShape.getBully())) {
+        if (playersShape.getBullies().contains(computersShape)) {
             computerWins++;
             battleInfo(computer);
-        } else if (computersShape.equals(playersShape.getVictim())) {
+        } else if (playersShape.getVictims().contains(computersShape)) {
             playerWins++;
             battleInfo(player);
         } else
@@ -112,6 +111,8 @@ public class GameRing {
                            "1 -> play Rock\n" +
                            "2 -> play Paper\n" +
                            "3 -> play Scissors\n" +
+                           "4 -> play Spock\n" +
+                           "5 -> play Lizard\n" +
                            "x -> end of game\n" +
                            "n -> new game");
     }
