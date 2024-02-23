@@ -9,7 +9,7 @@ public class FlightFinder {
         fillFlightMap(mapWithFlights);
         String keyToFind = flight.getArrivalAirport();
         Boolean arrivalValue = mapWithFlights.get(flight.getArrivalAirport());
-        if (mapWithFlights.containsKey(keyToFind) && arrivalValue)
+        if (mapWithFlights.containsKey(keyToFind))
             return mapWithFlights.get(keyToFind);
         else
             throw new RouteNotFoundException();

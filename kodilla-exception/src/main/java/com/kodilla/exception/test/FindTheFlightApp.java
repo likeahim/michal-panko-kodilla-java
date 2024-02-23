@@ -3,7 +3,7 @@ package com.kodilla.exception.test;
 public class FindTheFlightApp {
     public static void main(String[] args) {
         FlightFinder flightFinder = new FlightFinder();
-        Flight flight = new Flight("PUJ", "LAX");
+        Flight flight = new Flight("PUJ", "HJG");
 
         try {
             boolean flightAccess = flightFinder.findFlight(flight);
