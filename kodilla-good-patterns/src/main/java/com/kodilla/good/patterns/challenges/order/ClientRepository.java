@@ -15,7 +15,7 @@ public class ClientRepository {
         return clientsBase.remove(client);
     }
 
-    boolean exist(Client client) {
+    public boolean exist(Client client) {
         return clientsBase.contains(client);
     }
 
