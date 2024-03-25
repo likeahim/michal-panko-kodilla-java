@@ -10,7 +10,7 @@ public class ForumUserTestSuite {
     @Test
     void testGetUsername() {
         //Given
-        ApplicationContext context = new AnnotationConfigApplicationContext("com.kodilla.spring.forum");
+        ApplicationContext context = new AnnotationConfigApplicationContext("com.kodilla.spring");
         ForumUser user = context.getBean(ForumUser.class);
 
         //When
