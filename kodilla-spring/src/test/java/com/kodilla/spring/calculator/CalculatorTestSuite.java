@@ -1,13 +1,13 @@
 package com.kodilla.spring.calculator;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ContextConfiguration
+@SpringBootTest
 public class CalculatorTestSuite {
 
     private static final double A = 10;
