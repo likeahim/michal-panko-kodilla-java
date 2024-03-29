@@ -13,9 +13,9 @@ public class CheckersTestSuite {
         Checkers checkers = new Checkers.CheckersBuilder()
                 .PlayerOne("John")
                 .PlayerTwo("Theresa")
-                .Figure(FigureFactory.PAWN, Figure.WHITE, 3, 0)
-                .Figure(FigureFactory.PAWN, Figure.BLACK, 7, 9)
-                .Figure(FigureFactory.QUEEN, Figure.WHITE, 2, 0)
+                .Figure(FigureFactory.PAWN, Figure.WHITE, 0, 3)
+                .Figure(FigureFactory.PAWN, Figure.BLACK, 9, 7)
+                .Figure(FigureFactory.QUEEN, Figure.WHITE, 0, 2)
                 .build();
         System.out.println(checkers.getBoard());
 
