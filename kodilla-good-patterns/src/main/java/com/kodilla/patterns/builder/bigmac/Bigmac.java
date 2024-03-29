@@ -10,7 +10,7 @@ public class Bigmac {
     private final String sauce;
     private List<String> ingredients;
 
-    public Bigmac(String bun, int burgers, String sauce, List<String> ingredients) {
+    private Bigmac(String bun, int burgers, String sauce, List<String> ingredients) {
         this.bun = bun;
         this.burgers = burgers;
         this.sauce = sauce;
