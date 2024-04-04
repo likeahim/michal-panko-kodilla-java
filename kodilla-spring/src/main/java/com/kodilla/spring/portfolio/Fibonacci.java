@@ -2,10 +2,12 @@ package com.kodilla.spring.portfolio;
 
 public class Fibonacci {
     public static void main(String[] args) {
-        int fiboNumber = 3;
+        int fiboNumber = 7;
 
         long result = getFibonacci(fiboNumber);
         System.out.println("F" + fiboNumber + " in Fibonacci cycle is: " + result);
+        int recFib = fib(7);
+        System.out.println("Recurent: " + recFib);
         }
 
     private static long getFibonacci(int fiboNumber) {
@@ -23,4 +25,12 @@ public class Fibonacci {
     }
         return result;
     }
+
+    public static int fib(int n) {
+        if(n <= 1) {
+            return n;
+        }
+        return fib(n - 1) + fib(n - 2);
+    }
 }
+

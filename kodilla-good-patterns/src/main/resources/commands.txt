@@ -1,0 +1,43 @@
+CREATE TABLE ISSUESLISTS
+(
+    ID   SERIAL PRIMARY KEY,
+    NAME VARCHAR(100)
+);
+CREATE TABLE ISSUES
+(
+    ID                 SERIAL PRIMARY KEY,
+    ISSUESLIST_ID      BIGINT UNSIGNED NOT NULL,
+    SUMMARY            VARCHAR(100),
+    DESCIPTION        VARCHAR(150),
+    USER_ID_ASSIGNEDTO BIGINT UNSIGNED NOT NULL,
+    FOREIGN KEY (ISSUESLIST_ID) REFERENCES ISSUESLISTS (ID),
+    FOREIGN KEY (USER_ID_ASSIGNEDTO) REFERENCES USERS (ID)
+);
+INSERT INTO ISSUESLISTS(NAME)
+VALUES ('ToDo'),
+       ('In progress'),
+       ('Done');
+INSERT INTO ISSUES(ISSUESLIST_ID, SUMMARY, DESCIPTION, USER_ID_ASSIGNEDTO)
+VALUES (1, 'Meeting with the client', 'Prepare presentation for client', 1),
+       (1, 'Office supplies replenishment', 'Purchase office supplies', 1),
+       (1, 'Human resources development', 'Organize employee training', 2),
+       (1, 'Documentation management', 'Update project documentation', 3),
+       (1, 'Employee recruitment', 'Conduct job interviews', 3),
+       (1, 'Analysis of activities', 'Prepare company activity report', 4),
+       (1, 'Task planning', 'Develop project schedule', 5),
+       (2, 'System development', 'Implement CRM module', 6),
+       (2, 'Effectiveness evaluation', 'Analyze marketing campaign results', 1),
+       (2, 'Quality control', 'Test software', 2),
+       (2, 'Development planning', 'Prepare product strategy', 2),
+       (2, 'Interface design', 'Design mobile app interface', 1),
+       (2, 'Website maintenance', 'Update website content', 8),
+       (2, 'Partnership building', 'Develop relationships with partners', 9),
+       (3, 'Skills enhancement', 'Conduct customer service training', 10),
+       (3, 'Business negotiations', 'Finalize contract negotiations', 11),
+       (3, 'Security assurance', 'Implement monitoring system', 12),
+       (3, 'Online marketing', 'Update social media profiles', 13),
+       (3, 'Data security', 'Conduct data security audit', 14),
+       (3, 'Team atmosphere building', 'Organize team-building event', 5),
+       (3, 'Customer feedback', 'Conduct customer satisfaction survey', 7);
+COMMIT;
+SELECT * FROM ISSUES;
