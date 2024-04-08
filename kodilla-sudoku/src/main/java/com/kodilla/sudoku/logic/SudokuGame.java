@@ -1,6 +1,8 @@
 package com.kodilla.sudoku.logic;
 
 import com.kodilla.sudoku.board.SudokuBoard;
+import com.kodilla.sudoku.board.SudokuElement;
+import com.kodilla.sudoku.board.SudokuRow;
 import com.kodilla.sudoku.ui.UserInput;
 
 public class SudokuGame {
@@ -36,58 +38,84 @@ public class SudokuGame {
             UserInput.falseInput();
         else {
             board.getRows().get(currentX).getCols().get(currentY).setValue(currentNumber);
-            board.getRows().get(currentX).getCols().get(currentY).getPossibleValues().remove(currentNumber);
+            board.getRows().get(currentX).getCols().get(currentY).getPossibleValues().remove(Integer.valueOf(currentNumber));
         }
         UserInput.printer(board.toString());
     }
 
     //List possibleValues should be checked in this method, in smaller squares, horizontal and vertical lines
     private boolean checkComplianceWithRules() {
-        for (int x = 0; x < board.getRows().size(); x += 3) {
-            for (int y = 0; y < board.getRows().size(); y += 3) {
-                if (!checkSquare(x, y))
+//        for (int x = 0; x < board.getRows().size(); x += 3) {
+//            for (int y = 0; y < board.getRows().size(); y += 3) {
+                if (!checkSquare(currentX, currentY, currentNumber))
                     return false;
-            }
-        }
-        if (!checkHorizontalLine())
+//            }
+//        }
+        if (!checkHorizontalLine(currentNumber, currentX))
             return false;
-        if (!checkVerticalLine())
+        if (!checkVerticalLine(currentNumber, currentY))
             return false;
         return true;
     }
 
-    private boolean checkVerticalLine() {
-        for (int y = 0; y < board.getRows().size(); y++) {
+    private boolean checkVerticalLine(int number, int y) {
             for (int x = 0; x < board.getRows().size(); x++) {
-                if (!board.getRows().get(x).getCols().get(y).getPossibleValues().contains(currentNumber))
+                if (board.getRows().get(x).getCols().get(y).getValue() == number)
                     return false;
             }
-        }
         return true;
     }
 
-    private boolean checkHorizontalLine() {
-        for (int x = 0; x < board.getRows().size(); x++) {
+    private boolean checkHorizontalLine(int number, int x) {
             for (int y = 0; y < board.getRows().size(); y++) {
-                if (board.getRows().get(x).getCols().get(y).getValue() == currentNumber)
+                if (board.getRows().get(x).getCols().get(y).getValue() == number)
                     return false;
             }
-        }
         return true;
     }
 
-    private boolean checkSquare(int x, int y) {
-        for (int i = 0; i < 3; i++) {
-            if (board.getRows().get(x).getCols().get(y).getValue() == currentNumber)
-                return false;
-            x += 1;
-            y += 1;
+    private boolean checkSquare(int x, int y, int number) {
+        int deltaX = Math.abs(x - SudokuRow.getRow());
+        int deltaY = Math.abs(y - SudokuRow.getRow());
+        x = setSquareCoordinate(deltaX);
+        y = setSquareCoordinate(deltaY);
+        int temp = 0;
+        for (int i = x; i < (x + 3); i++) {
+            for (int j = y; j < (y + 3); j++) {
+                if (board.getRows().get(i).getCols().get(j).getValue() == number) {
+                    temp = number;
+                }
+            }
+
         }
-        return true;
+        return temp == 0;
+    }
+
+    private int setSquareCoordinate(int coordinate) {
+        if (coordinate <= 3)
+            return SudokuRow.getRow() - 3;
+        else if (coordinate <= 6)
+            return SudokuRow.getRow() - 6;
+        else
+            return SudokuRow.getRow() - 9;
     }
 
     private void tryToResolve(SudokuBoard board) {
-
+        SudokuElement element;
+        for (int x = 0; x < board.getRows().size(); x++) {
+            for (int y = 0; y < board.getRows().size(); y++) {
+                element = board.getRows().get(x).getCols().get(y);
+                if (element.getValue() == -1) {
+                    for (Integer number : element.getPossibleValues()) {
+                        if (checkSquare(x, y, number) && checkHorizontalLine(x, number) && checkVerticalLine(y, number)) {
+                            element.setValue(number);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        UserInput.printer(board.toString());
     }
 
     public boolean resolveSudoku() {
