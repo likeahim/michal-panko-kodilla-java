@@ -28,12 +28,12 @@ public class SudokuRow {
     @Override
     public String toString() {
         String top = "";
-        top += "\n";
         top += "|";
         for (int i = 0; i < cols.size(); i++) {
             top += cols.get(i);
             top += "|";
         }
+        top += "\n";
         return top;
     }
 }

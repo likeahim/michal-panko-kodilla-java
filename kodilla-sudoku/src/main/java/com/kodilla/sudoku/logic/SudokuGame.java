@@ -38,9 +38,24 @@ public class SudokuGame {
             UserInput.falseInput();
         else {
             board.getRows().get(currentX).getCols().get(currentY).setValue(currentNumber);
-            board.getRows().get(currentX).getCols().get(currentY).getPossibleValues().remove(Integer.valueOf(currentNumber));
+            removePossibleValues(currentX, currentY, currentNumber);
         }
         UserInput.printer(board.toString());
+    }
+
+    private void removePossibleValues(int coordinateX, int coordinateY, int numberToRemove) {
+        for (int y = 0; y < board.getRows().size(); y++) {
+            if (board.getRows().get(coordinateX).getCols().get(coordinateY).getPossibleValues().contains(numberToRemove)) {
+                board.getRows().get(coordinateX).getCols().get(y).getPossibleValues().remove(Integer.valueOf(numberToRemove));
+                board.getRows().get(coordinateX).getCols().get(y).getPossibleValues().add(0);
+            }
+        }
+        for (int x = 0; x < board.getRows().size(); x++) {
+            if (board.getRows().get(x).getCols().get(coordinateY).getPossibleValues().contains(numberToRemove)) {
+                board.getRows().get(x).getCols().get(coordinateY).getPossibleValues().remove(Integer.valueOf(numberToRemove));
+                board.getRows().get(x).getCols().get(coordinateY).getPossibleValues().add(0);
+            }
+        }
     }
 
     //List possibleValues should be checked in this method, in smaller squares, horizontal and vertical lines
@@ -51,14 +66,14 @@ public class SudokuGame {
                     return false;
 //            }
 //        }
-        if (!checkHorizontalLine(currentNumber, currentX))
+        if (!checkHorizontalLine(currentX, currentNumber))
             return false;
-        if (!checkVerticalLine(currentNumber, currentY))
+        if (!checkVerticalLine(currentY, currentNumber))
             return false;
         return true;
     }
 
-    private boolean checkVerticalLine(int number, int y) {
+    private boolean checkVerticalLine(int y, int number) {
             for (int x = 0; x < board.getRows().size(); x++) {
                 if (board.getRows().get(x).getCols().get(y).getValue() == number)
                     return false;
@@ -66,7 +81,7 @@ public class SudokuGame {
         return true;
     }
 
-    private boolean checkHorizontalLine(int number, int x) {
+    private boolean checkHorizontalLine(int x, int number) {
             for (int y = 0; y < board.getRows().size(); y++) {
                 if (board.getRows().get(x).getCols().get(y).getValue() == number)
                     return false;
@@ -107,8 +122,9 @@ public class SudokuGame {
                 element = board.getRows().get(x).getCols().get(y);
                 if (element.getValue() == -1) {
                     for (Integer number : element.getPossibleValues()) {
-                        if (checkSquare(x, y, number) && checkHorizontalLine(x, number) && checkVerticalLine(y, number)) {
+                        if (checkSquare(x, y, number)) {
                             element.setValue(number);
+                            removePossibleValues(x, y, number);
                             break;
                         }
                     }

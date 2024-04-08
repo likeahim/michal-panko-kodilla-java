@@ -88,8 +88,10 @@ public enum UserInput {
             input = scanner.nextLine();
             if (validateInput(input))
                 return input;
-            else
+            else {
                 falseInput();
+                input = "";
+            }
         }
     }
 
@@ -98,16 +100,16 @@ public enum UserInput {
             return true;
         try {
             String[] split = input.split(",");
-            SudokuGame.setCurrentX(Integer.parseInt(split[0]));
-            SudokuGame.setCurrentY(Integer.parseInt(split[1]));
+            SudokuGame.setCurrentX(Integer.parseInt(split[0])-1);
+            SudokuGame.setCurrentY(Integer.parseInt(split[1])-1);
             SudokuGame.setCurrentNumber(Integer.parseInt(split[2]));
             if (SudokuGame.getCurrentX() >= SudokuRow.getRow() ||
                 SudokuGame.getCurrentY() >= SudokuRow.getRow() ||
                 SudokuGame.getCurrentNumber() > 9 ||
                 SudokuGame.getCurrentNumber() < 1)
                 return false;
-        } catch (NumberFormatException e) {
-            System.out.println("wrong input, try again");
+        } catch (Exception e) {
+            return false;
         }
         return true;
     }

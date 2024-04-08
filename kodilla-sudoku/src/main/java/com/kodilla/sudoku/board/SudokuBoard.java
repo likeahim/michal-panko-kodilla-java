@@ -20,8 +20,14 @@ public class SudokuBoard {
     @Override
     public String toString() {
         String board = "";
+        if (SudokuRow.getRow() == 3)
+            board += "    1 2 3\n";
+        else
+            board = "    1 2 3 4 5 6 7 8 9\n";
+        int index = 1;
         for (SudokuRow row : rows) {
-            board += row.toString();
+            board += index + ") " + row.toString();
+            index++;
         }
         return board;
     }
