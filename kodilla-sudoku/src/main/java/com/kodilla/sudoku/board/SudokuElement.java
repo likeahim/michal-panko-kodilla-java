@@ -17,10 +17,6 @@ public class SudokuElement {
         return value;
     }
 
-    public static int getEMPTY() {
-        return EMPTY;
-    }
-
     public List<Integer> getPossibleValues() {
         return possibleValues;
     }

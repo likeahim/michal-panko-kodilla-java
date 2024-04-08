@@ -1,6 +1,7 @@
 package com.kodilla.sudoku.ui;
 
 import com.kodilla.sudoku.board.SudokuRow;
+import com.kodilla.sudoku.logic.SudokuGame;
 
 import java.util.Scanner;
 
@@ -47,13 +48,18 @@ public enum UserInput {
                 scanner.nextLine();
                 switch (choice) {
                     case 1:
-                        SudokuRow.setRow(9); validChoice = true; break;
-                        case 2:
-                            SudokuRow.setRow(3); validChoice = true; break;
-                            case 3: scanner.close();
-                            validChoice = true;
-                            gameEnded = true;
-                            break;
+                        SudokuRow.setRow(9);
+                        validChoice = true;
+                        break;
+                    case 2:
+                        SudokuRow.setRow(3);
+                        validChoice = true;
+                        break;
+                    case 3:
+                        scanner.close();
+                        validChoice = true;
+                        gameEnded = true;
+                        break;
                     default:
                         System.out.println("wrong choice, try again");
                 }
@@ -69,5 +75,48 @@ public enum UserInput {
 
     public static void printer(String toPrint) {
         System.out.println(toPrint);
+    }
+
+    public static String nextMove() {
+        String input;
+        while (true) {
+            System.out.println("""
+                    Enter next number [x,y,number]
+                    or
+                    type "SUDOKU" to try to resolve this game
+                    """);
+            input = scanner.nextLine();
+            if (validateInput(input))
+                return input;
+            else
+                falseInput();
+        }
+    }
+
+    private static boolean validateInput(String input) {
+        if (input.equalsIgnoreCase("sudoku"))
+            return true;
+        try {
+            String[] split = input.split(",");
+            SudokuGame.setCurrentX(Integer.parseInt(split[0]));
+            SudokuGame.setCurrentY(Integer.parseInt(split[1]));
+            SudokuGame.setCurrentNumber(Integer.parseInt(split[2]));
+            if (SudokuGame.getCurrentX() >= SudokuRow.getRow() ||
+                SudokuGame.getCurrentY() >= SudokuRow.getRow() ||
+                SudokuGame.getCurrentNumber() > 9 ||
+                SudokuGame.getCurrentNumber() < 1)
+                return false;
+        } catch (NumberFormatException e) {
+            System.out.println("wrong input, try again");
+        }
+        return true;
+    }
+
+    public static void occupiedCellInfo() {
+        System.out.println("This cell is already occupied");
+    }
+
+    public static void falseInput() {
+        System.out.println("false input, try again");
     }
 }

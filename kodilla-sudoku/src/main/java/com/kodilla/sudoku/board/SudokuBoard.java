@@ -13,6 +13,10 @@ public class SudokuBoard {
         }
     }
 
+    public List<SudokuRow> getRows() {
+        return rows;
+    }
+
     @Override
     public String toString() {
         String board = "";

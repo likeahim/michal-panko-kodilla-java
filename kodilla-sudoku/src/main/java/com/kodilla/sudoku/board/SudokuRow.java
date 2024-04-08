@@ -21,6 +21,10 @@ public class SudokuRow {
         SudokuRow.row = row;
     }
 
+    public List<SudokuElement> getCols() {
+        return cols;
+    }
+
     @Override
     public String toString() {
         String top = "";
