@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
@@ -13,6 +16,8 @@ public class CompanyDaoTestSuite {
 
     @Autowired
     private CompanyDao companyDao;
+    @Autowired
+    private EmployeeDao employeeDao;
 
     @Test
     void testSaveManyToMany() {
@@ -58,5 +63,50 @@ public class CompanyDaoTestSuite {
         } catch (Exception e) {
             //do nothing
         }
+    }
+
+    @Test
+    void testEmployeeNamedQuery() {
+        //Given
+        Employee employee1 = new Employee("Mark", "Twain");
+        Employee employee2 = new Employee("John", "Smith");
+        Employee employee3 = new Employee("Jack", "Twain");
+        employeeDao.save(employee1);
+        employeeDao.save(employee2);
+        employeeDao.save(employee3);
+
+        //When
+        List<Employee> employeesWithName = employeeDao.retrieveEmployeeByLastname("Twain");
+
+        //Then
+        assertEquals(2, employeesWithName.size());
+
+        //CleanUp
+        try {
+            employeeDao.deleteAll();
+        } catch (Exception e) {
+            //do nothing
+        }
+    }
+
+    @Test
+    void testCompanyNamedQuery() {
+        //Given
+        Company techBud = new Company("Tech-Bud");
+        Company techPro = new Company("TechPRO");
+        Company techSpecialist = new Company("Technical Specialist");
+        Company workerOnCall = new Company("Workers on Call");
+        companyDao.save(techBud);
+        companyDao.save(techPro);
+        companyDao.save(techSpecialist);
+        companyDao.save(workerOnCall);
+        //When
+        List<Company> tecCompany = companyDao.retrieveCompaniesByThreeLetter("Tec");
+
+        //Then
+        assertEquals(3, tecCompany.size());
+
+        //CleanUp
+        companyDao.deleteAll();
     }
 }

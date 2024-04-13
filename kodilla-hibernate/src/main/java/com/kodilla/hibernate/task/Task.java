@@ -5,7 +5,22 @@ import com.kodilla.hibernate.taskList.TaskList;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-
+@NamedQueries({
+        @NamedQuery(
+                name = "Task.retrieveLongTask",
+                query = "FROM Task WHERE duration > 10"
+        ),
+        @NamedQuery(
+                name = "Task.retrieveShortTask",
+                query = "FROM Task WHERE duration <= 10"
+        )
+})
+@NamedNativeQuery(
+        name = "Task.retrieveTaskWithEnoughTime",
+        query = "SELECT * FROM tasks" +
+                " WHERE DATEDIFF(DATE_ADD(CREATED, INTERVAL DURATION DAY), NOW()) > 5",
+        resultClass = Task.class
+)
 @Entity
 @Table(name = "TASKS")
 public class Task {
