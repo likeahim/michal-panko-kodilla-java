@@ -24,11 +24,16 @@ public class InvoiceDaoTestSuite {
         Product apple = new Product("Apple");
         Product cake = new Product("Cake");
         Product sandwich = new Product("Sandwich");
-        Product milk = new Product("Milk");
         Item apples = new Item(apple, new BigDecimal(10), 5);
         Item cakes = new Item(cake, new BigDecimal(20), 2);
         Item sandwiches = new Item(sandwich, new BigDecimal(30), 8);
         Invoice invoice1 = new Invoice("13/4/2024/124665");
+        apple.getItems().add(apples);
+        cake.getItems().add(cakes);
+        sandwich.getItems().add(sandwiches);
+        apples.setProduct(apple);
+        cakes.setProduct(cake);
+        sandwiches.setProduct(sandwich);
         invoice1.getItems().add(apples);
         invoice1.getItems().add(cakes);
         invoice1.getItems().add(sandwiches);

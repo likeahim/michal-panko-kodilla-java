@@ -34,7 +34,7 @@ public class Item {
     }
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "PRODUCT_NAME")
+    @JoinColumn(name = "PRODUCT_ID")
     public Product getProduct() {
         return product;
     }
@@ -58,7 +58,7 @@ public class Item {
     }
 
     @ManyToOne
-    @JoinColumn(name = "INVOICE_NUMBER")
+    @JoinColumn(name = "INVOICE_ID")
     public Invoice getInvoice() {
         return invoice;
     }
@@ -67,7 +67,7 @@ public class Item {
         this.id = id;
     }
 
-    private void setProduct(Product product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 
