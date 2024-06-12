@@ -15,4 +15,6 @@ public interface CompanyDao extends CrudRepository<Company, Integer> {
 
     @Query
     List<Company> retrieveCompaniesByThreeLetter(@Param("SHORTCUT") String shortcut);
+    @Query
+    Company retrieveCompanyByAnyFragment(@Param("ARG") String arg);
 }

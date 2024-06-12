@@ -102,9 +102,11 @@ public class CompanyDaoTestSuite {
         companyDao.save(workerOnCall);
         //When
         List<Company> tecCompany = companyDao.retrieveCompaniesByThreeLetter("Tec");
+        Company company = companyDao.retrieveCompanyByAnyFragment("%Bud%");
 
         //Then
         assertEquals(3, tecCompany.size());
+        assertEquals("Tech-Bud", company.getName());
 
         //CleanUp
         companyDao.deleteAll();

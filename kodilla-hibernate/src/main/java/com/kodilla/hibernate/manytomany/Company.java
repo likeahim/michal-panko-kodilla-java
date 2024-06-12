@@ -4,10 +4,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-@NamedQuery(
-        name = "Company.retrieveCompaniesByThreeLetter",
-        query = "FROM Company WHERE SUBSTRING(name, 1, 3) = :SHORTCUT"
-)
+@NamedQueries({
+        @NamedQuery(
+                name = "Company.retrieveCompaniesByThreeLetter",
+                query = "FROM Company WHERE SUBSTRING(name, 1, 3) = :SHORTCUT"
+        ),
+        @NamedQuery(
+                name = "Company.retrieveCompanyByAnyFragment",
+                query = "FROM Company WHERE name LIKE CONCAT('%', :ARG, '%')"
+        )
+})
 @Entity
 @Table(name = "COMPANIES")
 public class Company {
